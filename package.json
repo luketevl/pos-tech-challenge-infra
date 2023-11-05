@@ -1,0 +1,13 @@
+{
+  "name": "pos-tech-challenge-infra",
+  "version": "1.0.0",
+  "description": "Projeto com a infraestrutura",
+  "main": "index.js",
+  "scripts": {
+    "deploy:local": "terraform apply -var-file=\"secret.tfvars\"",
+    "destroy:local": "terraform destroy -var-file=\"secret.tfvars\"",
+    "plan:local": "terraform destroy -var-file=\"secret.tfvars\""
+  },
+  "author": "",
+  "license": "ISC"
+}
