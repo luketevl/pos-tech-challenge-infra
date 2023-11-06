@@ -12,11 +12,9 @@ module "aws_cognito_user_pool_restaurante" {
     sms_message   = "Your username is {username} and temporary password is {####}."
   }
 
-
-  # lambda_config = {
-  #   pre_sign_up = "arn:aws:lambda:us-east-1:123456789012:function:pre_sign_up"
-
-  # }
+  lambda_config = {
+    pre_sign_up = "arn:aws:lambda:${var.aws_region}:${var.aws_account_id}:function:autoConfirm" 
+  }
 
   password_policy = {
     minimum_length    = 10
@@ -27,32 +25,6 @@ module "aws_cognito_user_pool_restaurante" {
     temporary_password_validity_days = 120
   }
 
-  string_schemas = [
-    {
-      attribute_data_type      = "String"
-      developer_only_attribute = false
-      mutable                  = false
-      name                     = "email"
-      required                 = false
-
-      string_attribute_constraints = {
-        min_length = 7
-        max_length = 15
-      }
-    },
-    {
-      attribute_data_type      = "String"
-      developer_only_attribute = false
-      mutable                  = true
-      name                     = "document"
-      required                 = false
-
-      string_attribute_constraints = {
-        min_length = 1
-        max_length = 256
-      }
-    }
-  ]
   domain = "restaurante-postech"
 
   clients = [
@@ -64,7 +36,7 @@ module "aws_cognito_user_pool_restaurante" {
       callback_urls                        = ["https://localhost:3000/callback"]
       default_redirect_uri                 = "https://localhost:3000/callback"
       explicit_auth_flows                  = ["ALLOW_USER_PASSWORD_AUTH", "ALLOW_CUSTOM_AUTH", "ALLOW_REFRESH_TOKEN_AUTH", "ALLOW_USER_SRP_AUTH"]
-      generate_secret                      = false
+      generate_secret                      = true 
       logout_urls                          = ["https://localhost:000/logout"]
       name                                 = "appclient"
       read_attributes                      = ["email"]
